@@ -1,8 +1,8 @@
-# CS554-SE-Project
+# Clash of Software Engineers
 
 ## Project Description
 
-A real-time multi-player educational trivia game application where users can test out their knowledge in a fun and competitive environment. This project was originally a final project for the CS554 Software Engineering Course at Portland State University.
+A real-time multi-player educational trivia game application where users can test out their knowledge in a fun and competitive environment. This project was originally a final project for the CS-554 Software Engineering Course at Portland State University.
 
 ## Deployment / How to Run
 
