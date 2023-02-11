@@ -6,6 +6,8 @@ const PORT = 3000;
 const socketio = require('socket.io');
 const io = socketio(server);
 
+let questionNumber;
+
 const allQuestionsData = require('../questions.json');
 
 const allTriviaQuestions = allQuestionsData;
@@ -44,7 +46,14 @@ io.on('connection', (socket) => {
     });
   });
   socket.on('readyForTrivia', ({ room, roomUsers }) => {
-    io.to(room).emit('triviaQuestions', allTriviaQuestions);
+    questionNumber = 0;
+
+    for (questionNumber = 0; questionNumber < 6; questionNumber++) {
+      io.to(room).emit(
+        'triviaQuestion',
+        allTriviaQuestions.questions[questionNumber]
+      );
+    }
   });
   socket.on('selectedAnswer', ({ selectedAnswer, username }) => {
     const user = getCurrentUser(socket.id);

@@ -20,12 +20,14 @@ socket.on('usersInRoom', ({ room, roomUsers }) => {
     isReady = true;
     document.getElementById('wait-message').textContent =
       'Both sides are ready for battle!';
-    socket.emit('readyForTrivia', { room, roomUsers });
+    if (roomUsers[0].username === username) {
+      socket.emit('readyForTrivia', { room, roomUsers });
+    }
   }
 });
 
-socket.on('triviaQuestions', (allTriviaQuestions) => {
-  displayGame(allTriviaQuestions);
+socket.on('triviaQuestion', (triviaQuestion) => {
+  displayGame(triviaQuestion);
 });
 
 const triviaForm = document.querySelector('#main-trivia-form-container');
@@ -37,7 +39,7 @@ socket.on('message', (message) => {
 
 triviaForm.addEventListener('submit', (e) => {
   const selectedAnswer = triviaForm.elements.options.value;
-  console.log(selectedAnswer, username);
+  //   console.log(selectedAnswer, username);
   socket.emit('selectedAnswer', { selectedAnswer, username });
   e.preventDefault();
   return false;
@@ -62,11 +64,11 @@ const displayPlayers = (roomUsers) => {
   });
 };
 
-const displayGame = (allTriviaQuestions) => {
-  console.log('Here are the questions: ');
-  console.log(allTriviaQuestions);
-  q = allTriviaQuestions.questions[0];
-  console.log(q);
+const displayGame = (triviaQuestion) => {
+  console.log('Here is the question: ');
+  console.log(triviaQuestion);
+  q = triviaQuestion;
+  //   console.log(q);
   form.innerHTML = `<div>
     <p>
       Question:
