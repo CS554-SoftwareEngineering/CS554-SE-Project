@@ -83,15 +83,15 @@ const displayGame = (allTriviaQuestions) => {
       </div>
       <div>
         <input type="radio" id="option2" value="${q.options[1]}" name="options" />
-        <label for="option1">${q.options[1]}</label>
+        <label for="option2">${q.options[1]}</label>
       </div>
       <div>
         <input type="radio" id="option3" value="${q.options[2]}" name="options" />
-        <label for="option1">${q.options[2]}</label>
+        <label for="option3">${q.options[2]}</label>
       </div>
       <div>
         <input type="radio" id="option4" value="${q.options[3]}" name="options" />
-        <label for="option1">${q.options[3]}</label>
+        <label for="option4">${q.options[3]}</label>
       </div>
     </fieldset>
 
