@@ -19,16 +19,22 @@
         <input type="text" name="create-room-input" id="create-room-input" />
         <input type="submit" value="Create" />
       </form>
-      <form id="join-room-form" action="">
-        <label for="join-room-select"
-          >Select a Game Room Session to Join and Play:
-        </label>
-        <select name="join-room-select" id="join-room-select">
-          <option value="room1">Room 1</option>
-          <option value="room2">Room 2</option>
-          <option value="room2">Room 3</option>
-        </select>
-        <input type="submit" value="Join and Play" />
+      <form id="join-room-form" action="/initialInfo" method="POST">
+        <div>
+          <label for="user-name-input">Please enter your name: </label>
+          <input type="text" name="name" id="user-name-input" required />
+        </div>
+        <div>
+          <label for="join-room-select"
+            >Select a Game Room Session to Join and Play:
+          </label>
+          <select name="room" id="join-room-select" required>
+            <option value="room1">Room 1</option>
+            <option value="room2">Room 2</option>
+            <option value="room2">Room 3</option>
+          </select>
+          <input type="submit" value="Join and Play" />
+        </div>
       </form>
     </div>
   </body>
