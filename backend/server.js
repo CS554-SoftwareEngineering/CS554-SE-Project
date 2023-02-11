@@ -6,30 +6,9 @@ const PORT = 3000;
 const socketio = require('socket.io');
 const io = socketio(server);
 
-const allTriviaQuestions = {
-  questions: [
-    {
-      question: 'What is the capital of France?',
-      options: ['London', 'Paris', 'Berlin', 'Rome'],
-      answer: 'Paris',
-    },
-    {
-      question: 'What is the tallest mountain in the world?',
-      options: [
-        'Mount Kilimanjaro',
-        'Mount Everest',
-        'Mount Denali',
-        'Mount Aconcagua',
-      ],
-      answer: 'Mount Everest',
-    },
-    {
-      question: 'What is the currency of Japan?',
-      options: ['Euro', 'Dollar', 'Yen', 'Won'],
-      answer: 'Yen',
-    },
-  ],
-};
+const allQuestionsData = require('../questions.json');
+
+const allTriviaQuestions = allQuestionsData;
 
 const {
   joinUser,
