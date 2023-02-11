@@ -6,6 +6,31 @@ const PORT = 3000;
 const socketio = require('socket.io');
 const io = socketio(server);
 
+const allTriviaQuestions = {
+  questions: [
+    {
+      question: 'What is the capital of France?',
+      options: ['London', 'Paris', 'Berlin', 'Rome'],
+      answer: 'Paris',
+    },
+    {
+      question: 'What is the tallest mountain in the world?',
+      options: [
+        'Mount Kilimanjaro',
+        'Mount Everest',
+        'Mount Denali',
+        'Mount Aconcagua',
+      ],
+      answer: 'Mount Everest',
+    },
+    {
+      question: 'What is the currency of Japan?',
+      options: ['Euro', 'Dollar', 'Yen', 'Won'],
+      answer: 'Yen',
+    },
+  ],
+};
+
 const {
   joinUser,
   getCurrentUser,
@@ -38,6 +63,9 @@ io.on('connection', (socket) => {
       room: user.room,
       roomUsers: getUsersInRoom(user.room),
     });
+  });
+  socket.on('readyForTrivia', ({ room, roomUsers }) => {
+    io.to(room).emit('triviaQuestions', allTriviaQuestions);
   });
   socket.on('selectedAnswer', ({ selectedAnswer, username }) => {
     const user = getCurrentUser(socket.id);
