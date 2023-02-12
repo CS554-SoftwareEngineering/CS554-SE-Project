@@ -8,6 +8,22 @@ let username = document.querySelector('#username').textContent;
 let room = document.querySelector('#room').textContent;
 let playersList = document.querySelector('#playersInRoomList');
 let form = document.querySelector('#main-trivia-form-container');
+let countdownClock = document.getElementById('timer');
+
+startCount = false;
+
+const getClockFunc = () => {
+  if (startCount) {
+    socket.emit('getClock', room);
+  }
+};
+
+setInterval(getClockFunc, 1000);
+
+socket.on('time', (timer) => {
+  countdownClock.textContent = timer;
+  console.log(timer);
+});
 
 console.log(username, room);
 
@@ -17,12 +33,14 @@ socket.on('usersInRoom', ({ room, roomUsers }) => {
   displayRoom(room);
   displayPlayers(roomUsers);
   if (roomUsers.length === 2) {
-    isReady = true;
     document.getElementById('wait-message').textContent =
       'Both sides are ready for battle!';
     if (roomUsers[0].username === username) {
       socket.emit('readyForTrivia', { room, roomUsers });
     }
+    startCount = true;
+  } else if (roomUsers.length < 2) {
+    startCount = false;
   }
 });
 
