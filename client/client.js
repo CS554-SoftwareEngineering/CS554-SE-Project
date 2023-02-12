@@ -38,9 +38,10 @@ socket.on('message', (message) => {
 });
 
 triviaForm.addEventListener('submit', (e) => {
-  const selectedAnswer = triviaForm.elements.options.value;
+  // const selectedAnswer = triviaForm.elements.options.value;
   //   console.log(selectedAnswer, username);
-  socket.emit('selectedAnswer', { selectedAnswer, username });
+  // socket.emit('selectedAnswer', { selectedAnswer, username });
+  socket.emit('readyForNextQuestion', room);
   e.preventDefault();
   return false;
 });

@@ -47,14 +47,19 @@ io.on('connection', (socket) => {
   });
   socket.on('readyForTrivia', ({ room, roomUsers }) => {
     questionNumber = 0;
-
-    for (questionNumber = 0; questionNumber < 6; questionNumber++) {
-      io.to(room).emit(
-        'triviaQuestion',
-        allTriviaQuestions.questions[questionNumber]
-      );
-    }
+    io.to(room).emit(
+      'triviaQuestion',
+      allTriviaQuestions.questions[questionNumber]
+    );
   });
+  socket.on('readyForNextQuestion', (room) => {
+    questionNumber++;
+    io.to(room).emit(
+      'triviaQuestion',
+      allTriviaQuestions.questions[questionNumber]
+    );
+  });
+
   socket.on('selectedAnswer', ({ selectedAnswer, username }) => {
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit(
