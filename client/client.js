@@ -24,6 +24,13 @@ const getClockFunc = () => {
 
 setInterval(getClockFunc, 1000);
 
+socket.on('endOfGame', () => {
+  console.log('The game has ended!');
+  countdownClock.textContent = 'The Game Has Ended!';
+  startCount = false;
+  nextQ = false;
+});
+
 socket.on('time', (timer) => {
   countdownClock.textContent = timer;
   if (timer === 0) {

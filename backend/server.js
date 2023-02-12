@@ -67,10 +67,16 @@ io.on('connection', (socket) => {
   socket.on('readyForNextQuestion', (room) => {
     questionNumber++;
     timer = 5;
-    io.to(room).emit(
-      'triviaQuestion',
-      allTriviaQuestions.questions[questionNumber]
-    );
+    if (questionNumber < 6) {
+      io.to(room).emit(
+        'triviaQuestion',
+        allTriviaQuestions.questions[questionNumber]
+      );
+      console.log('Question Number: ' + questionNumber);
+    } else {
+      console.log('end of game');
+      io.to(room).emit('endOfGame');
+    }
   });
   socket.on('getClock', (room) => {
     io.to(room).emit('time', timer);
