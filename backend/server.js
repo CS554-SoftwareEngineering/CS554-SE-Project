@@ -6,12 +6,12 @@ const PORT = 3000;
 const socketio = require('socket.io');
 const io = socketio(server);
 
-let timer = 10;
+let timer = 5;
 const countdownTimer = () => {
-  console.log(timer);
+  // console.log(timer);
   timer--;
   if (timer === -1) {
-    timer = 10;
+    timer = 5;
   }
 };
 
@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
   });
   socket.on('readyForTrivia', ({ room, roomUsers }) => {
     questionNumber = 0;
-    timer = 10;
+    timer = 5;
     io.to(room).emit(
       'triviaQuestion',
       allTriviaQuestions.questions[questionNumber]
@@ -66,7 +66,7 @@ io.on('connection', (socket) => {
   });
   socket.on('readyForNextQuestion', (room) => {
     questionNumber++;
-    timer = 10;
+    timer = 5;
     io.to(room).emit(
       'triviaQuestion',
       allTriviaQuestions.questions[questionNumber]

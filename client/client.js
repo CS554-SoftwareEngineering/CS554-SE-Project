@@ -10,6 +10,10 @@ let playersList = document.querySelector('#playersInRoomList');
 let form = document.querySelector('#main-trivia-form-container');
 let countdownClock = document.getElementById('timer');
 
+nextQ = false;
+
+let playersList2;
+
 startCount = false;
 
 const getClockFunc = () => {
@@ -22,7 +26,17 @@ setInterval(getClockFunc, 1000);
 
 socket.on('time', (timer) => {
   countdownClock.textContent = timer;
-  console.log(timer);
+  if (timer === 0) {
+    // console.log('submit the form');
+    if (nextQ) {
+      if (playersList2[0].username === username) {
+        socket.emit('readyForNextQuestion', room);
+      }
+    }
+
+    // form.submit();
+  }
+  // console.log(timer);
 });
 
 console.log(username, room);
@@ -33,10 +47,14 @@ socket.on('usersInRoom', ({ room, roomUsers }) => {
   displayRoom(room);
   displayPlayers(roomUsers);
   if (roomUsers.length === 2) {
+    nextQ = true;
+    playersList = roomUsers;
+    playersList2 = roomUsers;
     document.getElementById('wait-message').textContent =
       'Both sides are ready for battle!';
     if (roomUsers[0].username === username) {
       socket.emit('readyForTrivia', { room, roomUsers });
+      console.log('The name: ' + roomUsers[0].username);
     }
     startCount = true;
   } else if (roomUsers.length < 2) {
@@ -55,14 +73,14 @@ socket.on('message', (message) => {
   outputMessage(message);
 });
 
-triviaForm.addEventListener('submit', (e) => {
-  // const selectedAnswer = triviaForm.elements.options.value;
-  //   console.log(selectedAnswer, username);
-  // socket.emit('selectedAnswer', { selectedAnswer, username });
-  socket.emit('readyForNextQuestion', room);
-  e.preventDefault();
-  return false;
-});
+// triviaForm.addEventListener('submit', (e) => {
+//   // const selectedAnswer = triviaForm.elements.options.value;
+//   //   console.log(selectedAnswer, username);
+//   // socket.emit('selectedAnswer', { selectedAnswer, username });
+//   socket.emit('readyForNextQuestion', room);
+//   e.preventDefault();
+//   return false;
+// });
 
 const outputMessage = (message) => {
   const messageListItem = document.createElement('li');
