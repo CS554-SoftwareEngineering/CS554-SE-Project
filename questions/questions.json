@@ -1,0 +1,65 @@
+{
+    "questions": [
+        {
+            "question": "Which of the following is NOT a Software Engineering Subdiscipline?",
+            "options": [
+                "Software Architecture",
+                "DevOps Engineer",
+                "Scrum Master",
+                "None of the above"
+            ],
+            "answer": "None of the above"
+        },
+        {
+            "question": "Which of the following is not a role defined in Scrum?",
+            "options": [
+                "Product Owner",
+                "Scrum Master",
+                "Development Team",
+                "Software Tester"
+            ],
+            "answer": "Software Tester"
+        },
+        {
+            "question": "What is the primary measure of progress for Agile teams?",
+            "options": [
+                "Customer Satisfaction",
+                "Completed user stories",
+                "Kanban board",
+                "Working software"
+            ],
+            "answer": "Working software"
+        },
+        {
+            "question": "According to the Agile Manifesto, what is the most effective way to convey information?",
+            "options": [
+                "Through a secure email",
+                "Through private messages",
+                "Through face-to-face discussion",
+                "Through public meetings"
+            ],
+            "answer": "Through face-to-face-discussion"
+        },
+        {
+            "question": "What is the most common software devlopment methodology today?",
+            "options": [
+                "Waterfall",
+                "Scrum",
+                "Agile",
+                "Extreme Programming"
+            ],
+            "answer": "Agile"
+        },
+        {
+            "question": "Which of the following a potential reason for a requested requirement to be revised?",
+            "options": [
+                "Implementing the requirement is not cost effective",
+                "The requirement is ambiguous",
+                "The requirement contradicts another already approved requirement",
+                "All of the above"
+            ],
+            "answer": "All of the above"
+        }
+
+    ]
+}
