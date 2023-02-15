@@ -7,7 +7,9 @@ let isReady = false;
 let username = document.querySelector('#username').textContent;
 let room = document.querySelector('#room').textContent;
 let playersList = document.querySelector('#playersInRoomList');
+
 let form = document.querySelector('#main-trivia-form-container');
+
 
 console.log(username, room);
 

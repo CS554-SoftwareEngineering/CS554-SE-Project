@@ -5,7 +5,6 @@ const server = http.createServer(app);
 const PORT = 3000;
 const socketio = require('socket.io');
 const io = socketio(server);
-
 const allQuestionsData = require('../questions.json');
 
 const allTriviaQuestions = allQuestionsData;
@@ -43,9 +42,11 @@ io.on('connection', (socket) => {
       roomUsers: getUsersInRoom(user.room),
     });
   });
+
   socket.on('readyForTrivia', ({ room, roomUsers }) => {
     io.to(room).emit('triviaQuestions', allTriviaQuestions);
   });
+
   socket.on('selectedAnswer', ({ selectedAnswer, username }) => {
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit(
