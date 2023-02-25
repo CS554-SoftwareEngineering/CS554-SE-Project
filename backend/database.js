@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 const leaderboards = require("./leaderboard");
 mongoose.set('strictQuery', true);
 
-//Change connection later once Heroku is set up
+// Change connection later once Heroku is set up
 mongoose.connect("mongodb://localhost/rankings"); 
 
-async function insertIntoDatabase() {
+async function insertIntoDatabase(playerName, playerScore) {
     try {
         const record = await leaderboards.create({
-            name: "Raven", 
-            score: 7
+            name: playerName, 
+            score: playerScore
         }); 
         console.log(record);
         console.log("The record has been added!");
@@ -23,9 +23,9 @@ async function insertIntoDatabase() {
     }
 }
 
-//add CRUD operations when leaderboard structure is defined
+// CRUD operations for leaderboard rankings database
 module.exports = db_interface = {
-    insert: () => { //add arg later
-        insertIntoDatabase();
+    insert: (playerName, playerScore) => {
+        insertIntoDatabase(playerName, playerScore);
     }
 }
