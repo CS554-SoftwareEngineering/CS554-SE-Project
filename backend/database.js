@@ -5,7 +5,6 @@ mongoose.set('strictQuery', true);
 // Change connection later once Heroku is set up
 mongoose.connect("mongodb://localhost/rankings"); 
 
-
 async function insertIntoLeaderboards(playerName, playerScore) {
     try {
         const record = await leaderboards.create({
@@ -24,11 +23,11 @@ async function insertIntoLeaderboards(playerName, playerScore) {
     }
 }
 
-// Need to change function to display to UI using React
-async function displayLeaderboards(numToDisplay) {
+// For dev purposes to view leaderboards, can be deleted later
+async function displayLeaderboards(numRecordsToDisplay) {
     try {
-        const display = await leaderboards.find().sort({score: -1}).limit(numToDisplay);
-        console.log(display);
+        const display = await leaderboards.find().sort({score: -1}).limit(numRecordsToDisplay);
+        console.log(display); 
     } catch(error) {
         console.error(error.message);
     }
@@ -39,12 +38,31 @@ async function displayLeaderboards(numToDisplay) {
     }
 }
 
+async function retrieveLeaderboardRecords(numRecordsToRetrieve) {
+    try {
+        const allRecords = await leaderboards.find().sort({score: -1}).limit(numRecordsToRetrieve); 
+        return allRecords;
+    } catch (error) {
+        console.error(error.message);   
+    }
+    finally{
+        mongoose.disconnect(() => {
+            console.log("Database disconnected")
+        })
+    }
+}
+
 // CRUD operations for leaderboard rankings database
 module.exports = db_interface = {
     insert: (playerName, playerScore) => {
-        insertIntoDatabase(playerName, playerScore);
+        insertIntoDatabase(playerName, playerScore)
     },
-    display: (numToDisplay) => { 
+    display: (numToDisplay) => {
         displayLeaderboards(numToDisplay);
+    },
+    retrieve: (numRecordsToRetrieve) => {
+        return retrieveLeaderboardRecords(numRecordsToRetrieve);
     }
 }
+
+
