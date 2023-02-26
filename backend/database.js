@@ -5,20 +5,36 @@ mongoose.set('strictQuery', true);
 // Change connection later once Heroku is set up
 mongoose.connect("mongodb://localhost/rankings"); 
 
-async function insertIntoDatabase(playerName, playerScore) {
+
+async function insertIntoLeaderboards(playerName, playerScore) {
     try {
         const record = await leaderboards.create({
             name: playerName, 
             score: playerScore
         }); 
         console.log(record);
-        console.log("The record has been added!");
-    } catch (e) {
-        console.log(e.message);
+        console.log("Record added");
+    } catch (error) {
+        console.error(error.message);
     }
     finally {
         mongoose.disconnect(() => {
-            console.log("The database has been successfully disconnected");
+            console.log("Database disconnected");
+        });
+    }
+}
+
+// Need to change function to display to UI using React
+async function displayLeaderboards(numToDisplay) {
+    try {
+        const display = await leaderboards.find().sort({score: -1}).limit(numToDisplay);
+        console.log(display);
+    } catch(error) {
+        console.error(error.message);
+    }
+    finally {
+        mongoose.disconnect(() => {
+            console.log("Database disconnected");
         });
     }
 }
@@ -27,5 +43,8 @@ async function insertIntoDatabase(playerName, playerScore) {
 module.exports = db_interface = {
     insert: (playerName, playerScore) => {
         insertIntoDatabase(playerName, playerScore);
+    },
+    display: (numToDisplay) => { 
+        displayLeaderboards(numToDisplay);
     }
 }
