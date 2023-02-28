@@ -1,3 +1,4 @@
+.gitignore
 node_modules
 #local vs-workspace
 CS554-SE-Project.code-workspace
