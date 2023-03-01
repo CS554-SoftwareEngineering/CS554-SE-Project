@@ -1,97 +1,104 @@
-import * as React from 'react';
-import './Home.css'
-import { Typography, TextField, Button, InputLabel, MenuItem, FormControl, Select} from '@mui/material';
+import * as React from "react";
+import { Button, Form, Container, Row, Col, Dropdown } from 'react-bootstrap';
+
+import { useNavigate } from "react-router-dom";
+
+
+import FadeIn from 'react-fade-in';
+
+
+
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./Home.css";
 
 function Home() {
-  const [room, setRoom] = React.useState('')
-  const [name, setName] = React.useState('')
+  const [roomValue, setRoom] = React.useState("Select a Room");
+  const [nameValue, setName] = React.useState("");
+
+  const navigate = useNavigate();
 
   const handleSelectRoom = (event) => {
-    setRoom(event.target.value);
+    console.log("selected room : ", event.target.innerText);
+    setRoom(event.target.innerText);
   };
   const handleName = (event) => {
     setName(event.target.value);
   };
-  React.useEffect(() => {
-    console.log('selected room: ', room)
-  },[room])
+
+  const enterGameRoom = (event) => {
+    event.preventDefault();
+
+    // console.log("submitted value : ", [name, room]);
+    // window.location.replace("/game");
+    navigate('/game',{state:{
+      name:{nameValue},
+      room:{roomValue} 
+    }});
+
+  };
 
   return (
-    
-    <div className='home-bg'>
-      <div className='form-bg'>
-        <Typography variant="h5" >TRIVIA GAME!</Typography>
-        <div className='create-room-form'>
-          <div className='label-heading'>
-            <Typography className="label-heading" variant="p" >Create a Game Room Session: </Typography>
-          </div>
-          <div className='create-room-div'>
-            <TextField id="standard-basic" className="text-primary" label="Session" variant="outlined" />
-            <Button className='button-primary' variant="contained">Create</Button>
-          </div> 
-          <div className='label-heading'>
-            <Typography variant="p" >Select a Game Room Session to Join and Play: </Typography>        
-          </div>
-          
-          <div className='join-room-div'>
-            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={room}
-                onChange={handleSelectRoom}
-                label="Age"
-              >
-                <MenuItem value={"room 1"}>room 1</MenuItem>
-                <MenuItem value={"room 2"}>room 2</MenuItem>
-                <MenuItem value={"room 3"}>room 3</MenuItem>
-              </Select>
-            </FormControl>
-            <Button variant="contained">Join and Play</Button>
-          </div>        
-        </div>
+    <div className="bg">
+      <div className="form-bg">
+        {/* <FadeIn> */}
+         <h2 className="form-heading mb-4 mt-4">CLASH OF SOFTWARE ENGINEERS</h2>
+        {/* </FadeIn> */}
+      <FadeIn delay={1000}>  
+        <Form onSubmit={enterGameRoom}>
+          <Container>
+            <Row>
+              <Col sm={6}>
+                <Form.Group className="mb-4 mt-4" controlId="formBasicName">
+                  {/* <Form.Label>Name</Form.Label> */}
+                  <Form.Control
+                    type="text"
+                    placeholder="Player Name"
+                    value={nameValue}
+                    onChange={handleName}
+                  />
+                  {/* <Form.Text className="text-muted">
+                    We'll never share your email with anyone else.
+                  </Form.Text> */}
+                </Form.Group>
+              </Col>
+              <Col sm={6}>
+                <Form.Group className="mb-4 mt-4" controlId="formBasicSession">
+                  {/* <Form.Label>Select a Game Room Session to Join and Play:</Form.Label> */}
+                  <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      {roomValue}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item href="" value="Room 1" onClick={handleSelectRoom}>Room 1</Dropdown.Item>
+                      <Dropdown.Item href="" value="Room 1" onClick={handleSelectRoom}>Room 2</Dropdown.Item>
+                      <Dropdown.Item href="" value="Room 1" onClick={handleSelectRoom}>Room 3</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  {/* <Form.Select
+                    aria-label="Default select example"
+                    value={roomValue}
+                    onChange={handleSelectRoom}
+                  >
+                    <option value="Room 1">Room 1</option>
+                    <option value="Room 2">Room 2</option>
+                    <option value="Room 3">Room 3</option>
+                  </Form.Select> */}
+                </Form.Group>
+              </Col>
+            </Row>
+          </Container>
+          <Form.Group className="mb-4 mt-4" controlId="formBasicPassword">
+            <Button variant="primary" type="submit">
+              ENTER
+            </Button>
+          </Form.Group>
+        </Form>
+      </FadeIn>
       </div>
-      
-    {/* <p>This is the homepage.</p> */}
-    {/* <p>
-      Data passed from backend: <%= locals.exampleText || "Default data passed"
-      %>
-    </p> */}
-      {/* <div>
-        <form id="create-room-form" action="">
-          <div>
-            <Typography variant="h6" >Create a Game Room Session: </Typography>
-            <TextField id="outlined-basic" label="Session" variant="standard" />
-            <Button variant="contained">Create</Button>
-          </div>
-          <div>
-            <TextField id="outlined-basic" label="Name" variant="standard" />
-          </div>
-          <div>
-            <Typography variant="h6" >Select a Game Room Session to Join and Play: </Typography>        <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={room}
-              onChange={handleSelectRoom}
-              label="Room"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={'room 1'}>room 1</MenuItem>
-              <MenuItem value={'room 2'}>room 2</MenuItem>
-              <MenuItem value={'room 3'}>room 3</MenuItem>
-            </Select>
-            <Button variant="contained">Join and Play</Button>
-          </div>
-        </form>
-        
-      </div> */}
     </div>
   );
 }
 
-export default Home
+export default Home;

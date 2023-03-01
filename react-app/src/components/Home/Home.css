@@ -1,21 +1,20 @@
-.home-bg{
-    background-color: #1a202c;
-    height: 100%;
-    width: 100%;
-    position: fixed;
-}
+
 .form-bg{
-    border: 2px solid #EDEEEE;
-    border-radius: 10px;
+    color: #EDEEEE;
+    /* border: 2px solid #EDEEEE;
+    border-radius: 10px; */
     padding: 20px;
-    background-color: #EDEEEE;
-    height: 50%;
-    width: 50%;
+    /* background-color: #EDEEEE; */
+    height: fit-content;
+    width: 500px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+}
+.form-heading {
+    font-weight: 700;
 }
 .create-room-form{
     /* background-color: white; */
@@ -34,3 +33,4 @@
     display: grid;
     grid-template-columns: 35% 35% 30%;
 }
+
