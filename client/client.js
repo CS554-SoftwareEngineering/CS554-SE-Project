@@ -9,6 +9,11 @@ let room = document.querySelector('#room').textContent;
 let playersList = document.querySelector('#playersInRoomList');
 let form = document.querySelector('#main-trivia-form-container');
 let countdownClock = document.getElementById('timer');
+let questionNumberArea = document.getElementById('question-number');
+let scoreArea = document.getElementById('score');
+
+let score = 0;
+let questionNumber = 0;
 
 nextQ = false;
 
@@ -19,6 +24,9 @@ startCount = false;
 const getClockFunc = () => {
   if (startCount) {
     socket.emit('getClock', room);
+
+    scoreArea.textContent = score;
+    questionNumberArea.textContent = questionNumber;
   }
 };
 
@@ -109,6 +117,7 @@ const displayPlayers = (roomUsers) => {
 };
 
 const displayGame = (triviaQuestion) => {
+  questionNumber++;
   console.log('Here is the question: ');
   console.log(triviaQuestion);
   q = triviaQuestion;
@@ -141,6 +150,32 @@ const displayGame = (triviaQuestion) => {
       </div>
     </fieldset>
 
-    <input type="submit" value="Submit Answer" />
+    <input type="submit" value="Submit Answer" id="submit"/>
   </div>`;
+
+  document.getElementById('option1').disabled = false;
+  document.getElementById('option2').disabled = false;
+  document.getElementById('option3').disabled = false;
+  document.getElementById('option4').disabled = false;
+  document.getElementById('submit').disabled = false;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    selectedAnswer = form.elements.options.value;
+    correctAnswer = q.answer;
+    console.log(username + ' has answered: ' + selectedAnswer);
+    console.log('The correct answer is: ' + correctAnswer);
+
+    if (selectedAnswer === correctAnswer) {
+      score++;
+    }
+
+    document.getElementById('option1').disabled = true;
+    document.getElementById('option2').disabled = true;
+    document.getElementById('option3').disabled = true;
+    document.getElementById('option4').disabled = true;
+    document.getElementById('submit').disabled = true;
+    form.reset();
+    // return false;
+  });
 };
