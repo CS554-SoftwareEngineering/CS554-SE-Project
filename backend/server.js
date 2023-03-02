@@ -5,7 +5,21 @@ const server = http.createServer(app);
 const PORT = 3000;
 const socketio = require('socket.io');
 const io = socketio(server);
-const allQuestionsData = require('../questions.json');
+
+let timer = 10;
+const countdownTimer = () => {
+  // console.log(timer);
+  timer--;
+  if (timer === -1) {
+    timer = 10;
+  }
+};
+
+setInterval(countdownTimer, 1000);
+
+let questionNumber;
+
+const allQuestionsData = require('../questions/questions.json');
 
 const allTriviaQuestions = allQuestionsData;
 
@@ -44,7 +58,29 @@ io.on('connection', (socket) => {
   });
 
   socket.on('readyForTrivia', ({ room, roomUsers }) => {
-    io.to(room).emit('triviaQuestions', allTriviaQuestions);
+    questionNumber = 0;
+    timer = 10;
+    io.to(room).emit(
+      'triviaQuestion',
+      allTriviaQuestions.questions[questionNumber]
+    );
+  });
+  socket.on('readyForNextQuestion', (room) => {
+    questionNumber++;
+    timer = 10;
+    if (questionNumber < 6) {
+      io.to(room).emit(
+        'triviaQuestion',
+        allTriviaQuestions.questions[questionNumber]
+      );
+      console.log('Question Number: ' + questionNumber);
+    } else {
+      console.log('end of game');
+      io.to(room).emit('endOfGame');
+    }
+  });
+  socket.on('getClock', (room) => {
+    io.to(room).emit('time', timer);
   });
 
   socket.on('selectedAnswer', ({ selectedAnswer, username }) => {
