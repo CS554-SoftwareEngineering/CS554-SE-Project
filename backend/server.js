@@ -56,6 +56,7 @@ io.on('connection', (socket) => {
       roomUsers: getUsersInRoom(user.room),
     });
   });
+
   socket.on('readyForTrivia', ({ room, roomUsers }) => {
     questionNumber = 0;
     timer = 10;
