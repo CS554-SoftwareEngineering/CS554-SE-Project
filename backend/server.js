@@ -5,7 +5,7 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 const socketio = require('socket.io');
 const io = socketio(server);
-const allQuestionsData = require('../questions.json');
+const allQuestionsData = require('../questions/questions.json');
 
 const allTriviaQuestions = allQuestionsData;
 
