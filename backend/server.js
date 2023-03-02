@@ -19,7 +19,7 @@ setInterval(countdownTimer, 1000);
 
 let questionNumber;
 
-const allQuestionsData = require('../questions.json');
+const allQuestionsData = require('../questions/questions.json');
 
 const allTriviaQuestions = allQuestionsData;
 
