@@ -7,7 +7,54 @@ let isReady = false;
 let username = document.querySelector('#username').textContent;
 let room = document.querySelector('#room').textContent;
 let playersList = document.querySelector('#playersInRoomList');
+
 let form = document.querySelector('#main-trivia-form-container');
+let countdownClock = document.getElementById('timer');
+let questionNumberArea = document.getElementById('question-number');
+let scoreArea = document.getElementById('score');
+
+let score = 0;
+let questionNumber = 0;
+
+nextQ = false;
+
+let playersList2;
+
+startCount = false;
+
+const getClockFunc = () => {
+  if (startCount) {
+    socket.emit('getClock', room);
+
+    scoreArea.textContent = score;
+    questionNumberArea.textContent = questionNumber;
+  }
+};
+
+setInterval(getClockFunc, 1000);
+
+socket.on('endOfGame', () => {
+  console.log('The game has ended!');
+  countdownClock.textContent = 'The Game Has Ended!';
+  startCount = false;
+  nextQ = false;
+});
+
+socket.on('time', (timer) => {
+  countdownClock.textContent = timer;
+  if (timer === 0) {
+    // console.log('submit the form');
+    if (nextQ) {
+      if (playersList2[0].username === username) {
+        socket.emit('readyForNextQuestion', room);
+      }
+    }
+
+    // form.submit();
+  }
+  // console.log(timer);
+});
+
 
 console.log(username, room);
 
@@ -17,15 +64,23 @@ socket.on('usersInRoom', ({ room, roomUsers }) => {
   displayRoom(room);
   displayPlayers(roomUsers);
   if (roomUsers.length === 2) {
-    isReady = true;
+    nextQ = true;
+    playersList = roomUsers;
+    playersList2 = roomUsers;
     document.getElementById('wait-message').textContent =
       'Both sides are ready for battle!';
-    socket.emit('readyForTrivia', { room, roomUsers });
+    if (roomUsers[0].username === username) {
+      socket.emit('readyForTrivia', { room, roomUsers });
+      console.log('The name: ' + roomUsers[0].username);
+    }
+    startCount = true;
+  } else if (roomUsers.length < 2) {
+    startCount = false;
   }
 });
 
-socket.on('triviaQuestions', (allTriviaQuestions) => {
-  displayGame(allTriviaQuestions);
+socket.on('triviaQuestion', (triviaQuestion) => {
+  displayGame(triviaQuestion);
 });
 
 const triviaForm = document.querySelector('#main-trivia-form-container');
@@ -35,13 +90,14 @@ socket.on('message', (message) => {
   outputMessage(message);
 });
 
-triviaForm.addEventListener('submit', (e) => {
-  const selectedAnswer = triviaForm.elements.options.value;
-  console.log(selectedAnswer, username);
-  socket.emit('selectedAnswer', { selectedAnswer, username });
-  e.preventDefault();
-  return false;
-});
+// triviaForm.addEventListener('submit', (e) => {
+//   // const selectedAnswer = triviaForm.elements.options.value;
+//   //   console.log(selectedAnswer, username);
+//   // socket.emit('selectedAnswer', { selectedAnswer, username });
+//   socket.emit('readyForNextQuestion', room);
+//   e.preventDefault();
+//   return false;
+// });
 
 const outputMessage = (message) => {
   const messageListItem = document.createElement('li');
@@ -62,11 +118,12 @@ const displayPlayers = (roomUsers) => {
   });
 };
 
-const displayGame = (allTriviaQuestions) => {
-  console.log('Here are the questions: ');
-  console.log(allTriviaQuestions);
-  q = allTriviaQuestions.questions[0];
-  console.log(q);
+const displayGame = (triviaQuestion) => {
+  questionNumber++;
+  console.log('Here is the question: ');
+  console.log(triviaQuestion);
+  q = triviaQuestion;
+  //   console.log(q);
   form.innerHTML = `<div>
     <p>
       Question:
@@ -95,6 +152,32 @@ const displayGame = (allTriviaQuestions) => {
       </div>
     </fieldset>
 
-    <input type="submit" value="Submit Answer" />
+    <input type="submit" value="Submit Answer" id="submit"/>
   </div>`;
+
+  document.getElementById('option1').disabled = false;
+  document.getElementById('option2').disabled = false;
+  document.getElementById('option3').disabled = false;
+  document.getElementById('option4').disabled = false;
+  document.getElementById('submit').disabled = false;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    selectedAnswer = form.elements.options.value;
+    correctAnswer = q.answer;
+    console.log(username + ' has answered: ' + selectedAnswer);
+    console.log('The correct answer is: ' + correctAnswer);
+
+    if (selectedAnswer === correctAnswer) {
+      score++;
+    }
+
+    document.getElementById('option1').disabled = true;
+    document.getElementById('option2').disabled = true;
+    document.getElementById('option3').disabled = true;
+    document.getElementById('option4').disabled = true;
+    document.getElementById('submit').disabled = true;
+    form.reset();
+    // return false;
+  });
 };
