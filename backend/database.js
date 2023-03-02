@@ -4,13 +4,10 @@ mongoose.set('strictQuery', true);
 
 // Change connection later once Heroku is set up
 // mongoose.connect("mongodb://localhost/rankings"); 
-mongoose.connect(
-    process.env.MONGODB_URI || 'mongodb://localhost/rankings',
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
-);
+const uri = process.env.MONGODB_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
 
 async function insertIntoLeaderboards(playerName, playerScore) {
     try {
