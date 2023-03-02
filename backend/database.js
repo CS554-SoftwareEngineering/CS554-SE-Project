@@ -3,7 +3,14 @@ const leaderboards = require("./leaderboard");
 mongoose.set('strictQuery', true);
 
 // Change connection later once Heroku is set up
-mongoose.connect("mongodb://localhost/rankings"); 
+// mongoose.connect("mongodb://localhost/rankings"); 
+mongoose.connect(
+    process.env.MONGODB_URI || 'mongodb://localhost/rankings',
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+);
 
 async function insertIntoLeaderboards(playerName, playerScore) {
     try {
