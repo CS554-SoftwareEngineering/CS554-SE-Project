@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Card, Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
-import FadeIn from 'react-fade-in';
+// import FadeIn from 'react-fade-in';
 
 import quizQuestions from '../../assets/quizQuestions.json'
 
@@ -118,7 +118,7 @@ function GameScreen() {
             }
 
             {showQuestions &&
-            <FadeIn>
+            // <FadeIn>
               <div className='trivia-card'>
                 <Card>
                   <Card.Header>{quizQuestionsList[currentQ].question}</Card.Header>
@@ -139,14 +139,14 @@ function GameScreen() {
                           )}
                         </Form.Group>
                         
-                      <Button className='mt-4' variant="primary" type='submit' ref={nextQRef}>Next</Button>
+                      <Button className='mt-4' style={{display:"none"}} variant="primary" type='submit' ref={nextQRef}>Next</Button>
                       </Form>                    
                     </Card.Text>
                   </Card.Body>
 
                 </Card>
               </div>
-            </FadeIn>
+            // {/* </FadeIn> */}
             }
 
             {showFinished &&

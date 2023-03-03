@@ -4,7 +4,7 @@ import { Button, Form, Container, Row, Col, Dropdown } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
 
-import FadeIn from 'react-fade-in';
+// import FadeIn from 'react-fade-in';
 
 
 
@@ -41,10 +41,10 @@ function Home() {
   return (
     <div className="bg">
       <div className="form-bg">
-        <FadeIn>
+        {/* <FadeIn> */}
          <h2 className="form-heading mb-4 mt-4">CLASH OF SOFTWARE ENGINEERS</h2>
-        </FadeIn>
-      <FadeIn delay={1000}>  
+        {/* </FadeIn> */}
+      {/* <FadeIn delay={1000}>   */}
         <Form onSubmit={enterGameRoom}>
           <Container>
             <Row>
@@ -95,7 +95,7 @@ function Home() {
             </Button>
           </Form.Group>
         </Form>
-      </FadeIn>
+      {/* </FadeIn> */}
       </div>
     </div>
   );
