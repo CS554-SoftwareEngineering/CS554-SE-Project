@@ -1,27 +1,22 @@
 import * as React from 'react';
 import { Card, Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
-
 import FadeIn from 'react-fade-in';
 
 import quizQuestions from '../../assets/quizQuestions.json'
 
+import socketIO from 'socket.io-client';
+import TimerBar from "../TimerBar/TimerBar"
 
 import {useLocation} from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './GameScreen.css'
 
+
+
 function GameScreen() {
   const location = useLocation();
 
-  const [timeLeft, setTimeLeft] = React.useState(100)
-
-  React.useEffect(()=>{
-    const timer = setTimeout(() => {
-      setTimeLeft(timeLeft-1)
-    }, 50);
-    return () => clearTimeout(timer);
-  },[timeLeft])
 
 
   const quizQuestionsList = quizQuestions.questions
@@ -31,59 +26,80 @@ function GameScreen() {
   const showNextquestion = (e) => {
     e.preventDefault();
     e.target.reset();
-    console.log('Getting on next question')
+
+    console.log("moving onto the next question")
     if(currentQ < quizQuestionsList.length-1){
       setCurrentQ(currentQ+1)
-      setTimeLeft(100)
     }
     else{
       setShowFinished(true)
       setShowQuestions(false)
+      stopCounterRepeatRef.current.stopCounterRepeat()
     }
   }
 
+  const nextQRef= React.useRef(null);
+
+  React.useEffect(()=>{
+    const timer = setTimeout(() => {    
+      nextQRef.current.click()
+    }, 10000);    
+    return () => clearTimeout(timer);
+
+  },[currentQ])
+
+
   const [player1, setPlayer1] = React.useState(location.state.name.nameValue) 
   const [player2, setPlayer2] = React.useState('second player') //we will have to set this value from server as soon as second player joins
+  const [roomName, setRoomName] = React.useState(location.state.room.roomValue) 
 
   
-  const [showQuestions, setShowQuestions] = React.useState(false) 
-  const [showIntro, setShowIntro] = React.useState(true) 
+  const [showQuestions, setShowQuestions] = React.useState(true) 
+  const [showIntro, setShowIntro] = React.useState(false) 
   const [showFinished, setShowFinished] = React.useState(false) 
 
   React.useEffect(()=>{
-    const timer = setTimeout(() => {
-      setShowQuestions(true)
-      setShowIntro(false)
-    }, 3000);
-    return () => clearTimeout(timer);
+    const socket = socketIO.connect('http://localhost:4000');
+
+    socket.on('connect', function() {
+      const sessionID = socket.id; //
+      console.log(sessionID, player1)
+    });
+
+    console.log({ player1, roomName })
+    socket.emit('joinGame', { player1, roomName });
+
+    // const timer = setTimeout(() => {
+    //   setShowQuestions(true)
+    //   setShowIntro(false)
+    // }, 3000);
+    // return () => clearTimeout(timer);
   },[])
+
   
 
 
+  const stopCounterRepeatRef = React.useRef(null)
 
   
   const [selectedOption, setSelectedOption] = React.useState(0) 
   const handleOptionSelect = (event) => {
-    console.log('Selected option: ', event.target.value)
+    console.log(`${player1} Selected option: `, event.target.value)
   }
 
   return (
     <div className='bg'>
-      {/* <div className='score-bar'>
-        <Container>
-          <Row>
-            <Col><span>{player1}</span></Col>
-            <Col><span>{player2}</span></Col>
-          </Row>
-        </Container>
-      </div> */}
       <div className="game-bg">
-        {/* <h1 className="form-heading mb-4 mt-4">CLASH OF SOFTWARE ENGINEERS</h1> */}
-        <h2 className='game-heading'>
-          Welcome, {player1}
-        </h2>
-        <h5 className="text">Game Room Session: {location.state.room.roomValue}</h5>
-        <h6 className="text mb-4" style={{fontStyle: "italic"}}>playing against <span style={{fontWeight: "500", fontStyle: "normal"}}>{player2}</span></h6>
+        <div className='game-details-container'>
+          <div>
+            <h2 className='game-heading'>
+              Welcome, {player1}
+            </h2>
+            <h5 className="text">Game Room Session: {location.state.room.roomValue}</h5>
+            <h6 className="text mb-4" style={{fontStyle: "italic"}}>playing against <span style={{fontWeight: "500", fontStyle: "normal"}}>{player2}</span></h6>
+          </div>
+          <TimerBar ref={stopCounterRepeatRef}/>
+        </div>
 
         <Card className='game-card'>          
           <Card.Body>
@@ -113,7 +129,7 @@ function GameScreen() {
                           {quizQuestionsList[currentQ].options.map((item, key) =>
                             <Form.Check>
                               <Form.Check.Input 
-                                type="radio" name="grouped" required inline 
+                                type="radio" name="grouped" inline 
                                 id={`option-${key}`}
                                 onChange={handleOptionSelect} 
                                 value={item}
@@ -123,7 +139,7 @@ function GameScreen() {
                           )}
                         </Form.Group>
                         
-                      <Button className='mt-4' variant="primary" type='submit'>Next</Button>
+                      <Button className='mt-4' variant="primary" type='submit' ref={nextQRef}>Next</Button>
                       </Form>                    
                     </Card.Text>
                   </Card.Body>

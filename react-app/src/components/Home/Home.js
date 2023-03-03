@@ -41,9 +41,9 @@ function Home() {
   return (
     <div className="bg">
       <div className="form-bg">
-        {/* <FadeIn> */}
+        <FadeIn>
          <h2 className="form-heading mb-4 mt-4">CLASH OF SOFTWARE ENGINEERS</h2>
-        {/* </FadeIn> */}
+        </FadeIn>
       <FadeIn delay={1000}>  
         <Form onSubmit={enterGameRoom}>
           <Container>
