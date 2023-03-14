@@ -1,10 +1,22 @@
 const express = require('express');
+const http = require('http');
 const app = express();
-const PORT = 4000;
+const server = http.createServer(app);
+const PORT = process.env.PORT || 3005;
+//const socketio = require('socket.io');
+//const io = socketio(server);
+//const path = require('path');
+const cors = require("cors");
 
-//New imports
-const http = require('http').Server(app);
-const cors = require('cors');
+app.use(cors());
+
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+});
 
 const {
   joinUser,
@@ -12,27 +24,39 @@ const {
   leaveUser,
   getUsersInRoom,
 } = require('./users');
+console.log('Server started!');
+io.on('connection', (socket)=>{
+  console.log('New client connected:', socket.id);
+  /*
+  socket.on('initialMessage', (data) => {
+    console.log(`Received message from client ${socket.id}: ${data}`);
+    socket.emit('serverInitialReply', `Echo from server: ${data}`);
+    socket.emit('playerID', socket.id);
+  });*/
 
-const socketIO = require('socket.io')(http, {
-  cors: {
-      origin: "http://localhost:3000"
-  }
-});
+  socket.on('joinGame', ({ player, roomName }) => {
+    const user = joinUser(socket.id, player, roomName);
+    socket.join(user.room);
+    //socket.emit('message', 'Welcome to Trivia App!');
+    console.log(`New Player - ${player} has connected to the room  ${roomName}`);
+    socket.broadcast
+      .to(user.room)
+      .emit('secondPlayerJoinedMessage', user.player);
 
-app.use(cors());
+    io.to(user.room).emit('usersInRoom', {
+      room: user.room,
+      roomUsers: getUsersInRoom(user.room),
+    });
+  });
 
-
-
-socketIO.on('connect', (socket) => {
-  console.log(`⚡: ${socket.id} user just connected!`);
-
-
-  socket.on('disconnect', () => {
-    console.log('🔥: A user disconnected');
+  socket.on('secondPlayerLoaded', (secondPlayerName)=>{
+    console.log(`Name of second player: ${secondPlayerName}`);
   });
 });
 
-
-http.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Server Running On Port: ${PORT}`);
 });
+
+
+

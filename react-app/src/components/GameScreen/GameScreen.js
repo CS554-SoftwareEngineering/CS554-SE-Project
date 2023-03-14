@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { Card, Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
 import FadeIn from 'react-fade-in';
-
 import quizQuestions from '../../assets/quizQuestions.json'
 
-import socketIO from 'socket.io-client';
+import io from 'socket.io-client';
 import TimerBar from "../TimerBar/TimerBar"
 
 import {useLocation} from 'react-router-dom';
@@ -12,11 +11,11 @@ import {useLocation} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './GameScreen.css'
 
+const socket = io('http://localhost:3005');
 
 
 function GameScreen() {
   const location = useLocation();
-
 
 
   const quizQuestionsList = quizQuestions.questions
@@ -40,43 +39,66 @@ function GameScreen() {
 
   const nextQRef= React.useRef(null);
 
+
+  const [player1, setPlayer1] = React.useState(location.state.name.nameValue) 
+  const [player2, setPlayer2] = React.useState('Awaiting second player to join...')
+  const [playerCount, setPlayerCount] = React.useState(1); 
+  const [roomName, setRoomName] = React.useState(location.state.room.roomValue) 
+
+  //showQuestions set to false from true to wait for second player
+  const [showQuestions, setShowQuestions] = React.useState(false) 
+  //showInto set to true from false to wait for second player
+  const [showIntro, setShowIntro] = React.useState(true) 
+  const [showFinished, setShowFinished] = React.useState(false) 
+  const [showTimer, setShowTimer] = React.useState(false) 
+
   React.useEffect(()=>{
-    const timer = setTimeout(() => {    
-      nextQRef.current.click()
-    }, 10000);    
-    return () => clearTimeout(timer);
+    if(playerCount===2){
+      const timer = setTimeout(() => {    
+        nextQRef.current.click()
+      }, 10000);    
+      return () => clearTimeout(timer);
+    }
 
   },[currentQ])
 
 
-  const [player1, setPlayer1] = React.useState(location.state.name.nameValue) 
-  const [player2, setPlayer2] = React.useState('second player') //we will have to set this value from server as soon as second player joins
-  const [roomName, setRoomName] = React.useState(location.state.room.roomValue) 
-
-  
-  const [showQuestions, setShowQuestions] = React.useState(true) 
-  const [showIntro, setShowIntro] = React.useState(false) 
-  const [showFinished, setShowFinished] = React.useState(false) 
-
   React.useEffect(()=>{
-    const socket = socketIO.connect('http://localhost:4000');
-
+    
     socket.on('connect', function() {
       const sessionID = socket.id; //
       console.log(sessionID, player1)
     });
-
-    console.log({ player1, roomName })
+    //socket.emit('initialMessage', {roomName});
     socket.emit('joinGame', { player1, roomName });
+    socket.on('serverInitialReply', (data) => {
+      console.log('Received message from server:', data);
+    });
+    console.log({ player1, roomName })
+    
+    
+    socket.on('secondPlayerJoinedMessage', (secondPlayerName) => {
+      setPlayer2(secondPlayerName);
+      setPlayerCount(2);
+      socket.emit('secondPlayerLoaded',{secondPlayerName});
+    });
+    
+    socket.on('usersInRoom', ({ room, roomUsers }) => {
+      if (roomUsers.length === 2) {
+        setShowIntro(false);
+        setShowQuestions(true);
+        setShowTimer(true);
+        //startCount = true;
+      }
+    });
 
     // const timer = setTimeout(() => {
     //   setShowQuestions(true)
     //   setShowIntro(false)
     // }, 3000);
     // return () => clearTimeout(timer);
-  },[])
+  },[socket])
 
-  
 
 
   const stopCounterRepeatRef = React.useRef(null)
@@ -93,12 +115,14 @@ function GameScreen() {
         <div className='game-details-container'>
           <div>
             <h2 className='game-heading'>
-              Welcome, {player1}
+              Welcome, {location.state.name.nameValue}
             </h2>
             <h5 className="text">Game Room Session: {location.state.room.roomValue}</h5>
             <h6 className="text mb-4" style={{fontStyle: "italic"}}>playing against <span style={{fontWeight: "500", fontStyle: "normal"}}>{player2}</span></h6>
           </div>
+          {showTimer &&
           <TimerBar ref={stopCounterRepeatRef}/>
+          }
         </div>
 
         <Card className='game-card'>          
