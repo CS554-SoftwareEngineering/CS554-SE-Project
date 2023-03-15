@@ -18,7 +18,7 @@ const RenderTime = ({ remainingTime }) => {
     isNewTimeFirstTick.current = false;
   }
 
-  // force one last re-render when the time is over to tirgger the last animation
+  // force one last re-render when the time is over to trigger the last animation
   if (remainingTime === 0) {
     setTimeout(() => {
       setOneLastRerender((val) => val + 1);

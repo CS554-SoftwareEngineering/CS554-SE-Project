@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Card, Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
-// import FadeIn from 'react-fade-in';
 
 import quizQuestions from '../../assets/quizQuestions.json'
 
@@ -14,9 +13,9 @@ import './GameScreen.css'
 
 const socket = io('http://localhost:3005');
 
+
 function GameScreen() {
   const location = useLocation();
-
 
 
   const quizQuestionsList = quizQuestions.questions
@@ -27,7 +26,7 @@ function GameScreen() {
     e.preventDefault();
     e.target.reset();
 
-    console.log("moving onto the next question")
+    // console.log("moving onto the next question")
     if(currentQ < quizQuestionsList.length-1){
       setCurrentQ(currentQ+1)
     }
@@ -40,27 +39,38 @@ function GameScreen() {
 
   const nextQRef= React.useRef(null);
 
+
   const [player1, setPlayer1] = React.useState(location.state.name.nameValue) 
-  const [player2, setPlayer2] = React.useState('Waiting for another player...')
+  const [player2, setPlayer2] = React.useState('Awaiting second player to join...')
   const [playerCount, setPlayerCount] = React.useState(1); 
   const [roomName, setRoomName] = React.useState(location.state.room.roomValue) 
 
-  //showQuestions set to false from true to wait for second player
+
   const [showQuestions, setShowQuestions] = React.useState(false) 
-  //showIntro set to true from false to wait for second player
   const [showIntro, setShowIntro] = React.useState(true) 
   const [showFinished, setShowFinished] = React.useState(false) 
   const [showTimer, setShowTimer] = React.useState(false) 
 
+
   React.useEffect(()=>{
-    if(playerCount===2){
+    if(playerCount === 2 && showQuestions === false){
       const timer = setTimeout(() => {    
         nextQRef.current.click()
       }, 10000);    
       return () => clearTimeout(timer);
     }
 
-  },[currentQ])
+  },[currentQ, showQuestions])
+
+  React.useEffect(()=>{
+    if(playerCount === 1 && showQuestions === true){
+      const timer1 = setTimeout(() => {    
+        nextQRef.current.click()
+      }, 10000);    
+      return () => clearTimeout(timer1);
+    }
+
+  },[currentQ, showQuestions])
 
 
   React.useEffect(()=>{
@@ -88,19 +98,10 @@ function GameScreen() {
         setShowIntro(false);
         setShowQuestions(true);
         setShowTimer(true);
-        //startCount = true;
       }
     });
-
-    // const timer = setTimeout(() => {
-    //   setShowQuestions(true)
-    //   setShowIntro(false)
-    // }, 3000);
-    // return () => clearTimeout(timer);
   },[socket])
 
-
-  
 
 
   const stopCounterRepeatRef = React.useRef(null)
@@ -117,12 +118,14 @@ function GameScreen() {
         <div className='game-details-container'>
           <div>
             <h2 className='game-heading'>
-              Welcome, {player1}
+              Welcome, {location.state.name.nameValue}
             </h2>
             <h5 className="text">Game Room Session: {location.state.room.roomValue}</h5>
             <h6 className="text mb-4" style={{fontStyle: "italic"}}>playing against <span style={{fontWeight: "500", fontStyle: "normal"}}>{player2}</span></h6>
           </div>
+          {showTimer &&
           <TimerBar ref={stopCounterRepeatRef}/>
+          }
         </div>
 
         <Card className='game-card'>          
@@ -130,7 +133,7 @@ function GameScreen() {
             {showIntro &&
               <div className='intro-card'>
                 <Card.Text>
-                  You are about to start the quiz. Waiting for another player to join.
+                  You are about to start the quiz. waiting for other player to join.
                 </Card.Text>
               
                 <div className='spinner-container'>
