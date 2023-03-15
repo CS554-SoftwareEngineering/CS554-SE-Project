@@ -52,6 +52,11 @@ io.on('connection', (socket)=>{
   socket.on('secondPlayerLoaded', (secondPlayerName)=>{
     console.log(`Name of second player: ${secondPlayerName}`);
   });
+  socket.on('disconnect', () => {
+    const user = leaveUser(socket.id);
+    
+    console.log(`Player - ${socket.id} has left the room`);;
+  });
 });
 
 server.listen(PORT, () => {

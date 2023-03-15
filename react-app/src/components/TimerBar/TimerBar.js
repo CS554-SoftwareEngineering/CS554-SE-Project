@@ -64,7 +64,7 @@ const TimerBar = forwardRef((props, ref) => {
             <div className="timer-wrapper">
             <CountdownCircleTimer
               isPlaying
-              duration={10}
+              duration={5}
               colors={"#61dafb"}
               trailColor={"transparent"}
               size={80}

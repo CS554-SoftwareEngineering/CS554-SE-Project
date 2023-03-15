@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Card, Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
-import FadeIn from 'react-fade-in';
+// import FadeIn from 'react-fade-in';
 import quizQuestions from '../../assets/quizQuestions.json'
 
 import io from 'socket.io-client';
@@ -26,7 +26,7 @@ function GameScreen() {
     e.preventDefault();
     e.target.reset();
 
-    console.log("moving onto the next question")
+    // console.log("moving onto the next question")
     if(currentQ < quizQuestionsList.length-1){
       setCurrentQ(currentQ+1)
     }
@@ -52,15 +52,28 @@ function GameScreen() {
   const [showFinished, setShowFinished] = React.useState(false) 
   const [showTimer, setShowTimer] = React.useState(false) 
 
+
   React.useEffect(()=>{
-    if(playerCount===2){
+    if(playerCount==2 && showQuestions == true){
       const timer = setTimeout(() => {    
         nextQRef.current.click()
-      }, 10000);    
+      }, 5000);    
       return () => clearTimeout(timer);
     }
 
-  },[currentQ])
+  },[currentQ, showQuestions])
+
+  // Added this new setTimeout function. I dont know why and how it works but it fixed the problem!
+  React.useEffect(()=>{
+    if(playerCount==1 && showQuestions == true){
+      const timer1 = setTimeout(() => {    
+        nextQRef.current.click()
+      }, 5000);    
+      return () => clearTimeout(timer1);
+    }
+
+  },[currentQ, showQuestions])
+  //
 
 
   React.useEffect(()=>{
@@ -88,15 +101,8 @@ function GameScreen() {
         setShowIntro(false);
         setShowQuestions(true);
         setShowTimer(true);
-        //startCount = true;
       }
     });
-
-    // const timer = setTimeout(() => {
-    //   setShowQuestions(true)
-    //   setShowIntro(false)
-    // }, 3000);
-    // return () => clearTimeout(timer);
   },[socket])
 
 
@@ -142,7 +148,7 @@ function GameScreen() {
             }
 
             {showQuestions &&
-            <FadeIn>
+            // <FadeIn>
               <div className='trivia-card'>
                 <Card>
                   <Card.Header>{quizQuestionsList[currentQ].question}</Card.Header>
@@ -170,7 +176,7 @@ function GameScreen() {
 
                 </Card>
               </div>
-            </FadeIn>
+            // </FadeIn>
             }
 
             {showFinished &&
