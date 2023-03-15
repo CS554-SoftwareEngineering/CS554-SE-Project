@@ -28,7 +28,9 @@ const getCurrentUser = (id) => {
 const leaveUser = (id) => {
   const index = usersArray.findIndex((user) => user.id === id);
   if (index !== -1) {
-    return usersArray.splice(index, 1)[0];
+    usersArray.splice(index, 1)
+    console.log("updated usersArray: ", usersArray)
+    return usersArray;
   }
 };
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Card, Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
-import FadeIn from 'react-fade-in';
+// import FadeIn from 'react-fade-in';
 
 import quizQuestions from '../../assets/quizQuestions.json'
 
@@ -53,6 +53,9 @@ function GameScreen() {
   const [showFinished, setShowFinished] = React.useState(false) 
   const [showTimer, setShowTimer] = React.useState(false) 
 
+  
+  const [redirect, setRedirect] = React.useState(false) 
+
 
   React.useEffect(()=>{
     if(playerCount==2 && showQuestions == true){
@@ -98,13 +101,25 @@ function GameScreen() {
     });
     
     socket.on('usersInRoom', ({ room, roomUsers }) => {
-      if (roomUsers.length === 2) {
+      if (roomUsers.length === 100) {
         setShowIntro(false);
         setShowQuestions(true);
         setShowTimer(true);
       }
     });
+    socket.on('redirectToHome', () => {
+      console.log('Redirecting-------------')
+      setRedirect(true)
+    });
+
   },[socket])
+
+  React.useEffect(()=>{
+    if (redirect==true) {
+      console.log('-------------Redirecting')
+      window.location.assign("http://localhost:3000");
+    }
+  },[redirect])
 
 
 

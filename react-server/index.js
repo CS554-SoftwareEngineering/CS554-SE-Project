@@ -52,11 +52,31 @@ io.on('connection', (socket)=>{
   socket.on('secondPlayerLoaded', (secondPlayerName)=>{
     console.log(`Name of second player: ${secondPlayerName}`);
   });
-  socket.on('disconnect', () => {
+  socket.on('disconnect', (message) => {
     const user = leaveUser(socket.id);
+    console.log(`usersArray - ${JSON.stringify(user)}`);
     
-    console.log(`Player - ${socket.id} has left the room`);;
-  });
+    console.log(`Player - ${socket.id} has left the room`);
+
+    console.log("-----checking users in room-----")
+
+    let usersInRoom = getUsersInRoom(JSON.parse(JSON.stringify(user)).room).length
+    console.log(' ')
+    console.log(JSON.parse(JSON.stringify(user))[0].room, JSON.parse(JSON.stringify(user)))
+    console.log(' ')
+    if( usersInRoom < 2){
+      console.log("-----stop the game-----")
+      // socket.emit('redirectToHome')
+      io.to(JSON.parse(JSON.stringify(user))[0].id).emit('redirectToHome');
+      // socket.disconnect()
+    }
+
+    // io.to(JSON.parse(JSON.stringify(user))[0].room).emit('message', {
+    //   // room: user.room,
+    //   roomUsers: usersInRoom,
+    // });
+
+    });
 });
 
 server.listen(PORT, () => {
