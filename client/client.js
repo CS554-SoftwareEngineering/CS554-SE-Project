@@ -43,18 +43,13 @@ socket.on('endOfGame', () => {
 socket.on('time', (timer) => {
   countdownClock.textContent = timer;
   if (timer === 0) {
-    // console.log('submit the form');
     if (nextQ) {
       if (playersList2[0].username === username) {
         socket.emit('readyForNextQuestion', room);
       }
     }
-
-    // form.submit();
   }
-  // console.log(timer);
 });
-
 
 console.log(username, room);
 
@@ -90,15 +85,6 @@ socket.on('message', (message) => {
   outputMessage(message);
 });
 
-// triviaForm.addEventListener('submit', (e) => {
-//   // const selectedAnswer = triviaForm.elements.options.value;
-//   //   console.log(selectedAnswer, username);
-//   // socket.emit('selectedAnswer', { selectedAnswer, username });
-//   socket.emit('readyForNextQuestion', room);
-//   e.preventDefault();
-//   return false;
-// });
-
 const outputMessage = (message) => {
   const messageListItem = document.createElement('li');
   messageListItem.innerHTML = `${message}`;
@@ -123,7 +109,6 @@ const displayGame = (triviaQuestion) => {
   console.log('Here is the question: ');
   console.log(triviaQuestion);
   q = triviaQuestion;
-  //   console.log(q);
   form.innerHTML = `<div>
     <p>
       Question:
@@ -178,6 +163,5 @@ const displayGame = (triviaQuestion) => {
     document.getElementById('option4').disabled = true;
     document.getElementById('submit').disabled = true;
     form.reset();
-    // return false;
   });
 };

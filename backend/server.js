@@ -8,7 +8,6 @@ const io = socketio(server);
 
 let timer = 10;
 const countdownTimer = () => {
-  // console.log(timer);
   timer--;
   if (timer === -1) {
     timer = 10;
