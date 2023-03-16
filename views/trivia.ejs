@@ -13,30 +13,24 @@
     <main class="main main-2">
       <h1 class="main-heading-1">Trivia Game!</h1>
       <div class="game-info">
-        <h2>Username: <span id="username"><%= locals.name %></span></h2>
-        <h2>
+        <h3>Username: <span id="username"><%= locals.name %></span></h3>
+        <h3>
           Opponent: <%= locals.competitor %>
           <span id="playersInRoomList"></span> <span id="players">None</span>
-        </h2>
-        <h2>Game: <span id="room"> <%= locals.room %> </span></h2>
+        </h3>
+        <h3>Game: <span id="room"> <%= locals.room %> </span></h3>
       </div>
-      <!-- <div class="game-info game-info-opponent">
-        <h2>
-          Opponent: <%= locals.competitor %>
-          <span id="playersInRoomList"></span> <span id="players">None</span>
-        </h2>
-      </div> -->
       <div class="game-info time-score-question">
-        <h2>Score:<span id="score"></span></h2>
-        <h2>Timer:<span id="timer"></span></h2>
-        <h2><span id="question-number"></span>of 6 Questions</h2>
+        <h3>Score:<span id="score"></span></h3>
+        <h3 id="time-box">Timer:<span id="timer"></span></h3>
+        <h3><span id="question-number"></span>of 6 Questions</h3>
       </div>
       <div id="message-container">
         <ol id="message-list"></ol>
       </div>
 
       <form id="main-trivia-form-container" class="form2">
-        <p id="wait-message">*The Game will start when players have joined.</p>
+        <p id="wait-message">*Waiting for second player to join.</p>
       </form>
     </main>
   </body>

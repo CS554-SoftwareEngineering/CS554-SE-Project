@@ -56,22 +56,47 @@ socket.on('endReport', ({ opponent, oppScore }) => {
   let reportContiner = document.createElement('div');
   let currUserReport = document.createElement('div');
   let oppUserReport = document.createElement('div');
-  currUserReport.textContent = `${username} scored: ${score}`;
-  oppUserReport.textContent = `${opponent} scored: ${oppScore}`;
-  reportContiner.append(currUserReport, oppUserReport);
+  let comparisonMsg = document.createElement('h3');
+  let reportContinerTitle = document.createElement('h2');
+  let homeButton = document.createElement('button');
+  homeButton.textContent = 'Play Again';
+  homeButton.classList.add('homeButton');
+  reportContinerTitle.textContent = 'Score Report';
+  if (score > oppScore) {
+    comparisonMsg.textContent = `You Won, Congrats!`;
+    comparisonMsg.style.color = 'rgb(27, 156, 17)';
+  } else if (oppScore > score) {
+    comparisonMsg.textContent = `You Lost, Sorry!`;
+    comparisonMsg.style.color = 'red';
+  } else if (score === oppScore) {
+    comparisonMsg.textContent = `It was a TIE!`;
+    comparisonMsg.style.color = 'rgb(27, 156, 17)';
+  }
+  currUserReport.textContent = `${username} scored: ${score} points`;
+  oppUserReport.textContent = `${opponent} scored: ${oppScore} points`;
+  reportContiner.append(
+    reportContinerTitle,
+    comparisonMsg,
+    currUserReport,
+    oppUserReport,
+    homeButton
+  );
   reportContiner.classList.add('report-container');
   document.querySelector('.main-2').append(reportContiner);
+  homeButton.addEventListener('click', () => {
+    window.location.assign('http://localhost:3000/');
+  });
 });
 
 socket.on('userDisconnect', () => {
   if (gameOver === false) {
-    alert(
-      'Your opponent disconnected so you will be routed back to the homepage.'
-    );
-
+    form.remove();
+    let oppLeftMessage = document.createElement('div');
+    oppLeftMessage.innerHTML = `<h1>Your opponent disconnected so you will be routed back to the homepage!</h1>`;
+    document.querySelector('.main-2').append(oppLeftMessage);
     setTimeout(() => {
       window.location.assign('http://localhost:3000/');
-    }, 10000);
+    }, 7000);
   }
 });
 
@@ -143,18 +168,15 @@ const displayGame = (triviaQuestion) => {
   console.log('Here is the question: ');
   console.log(triviaQuestion);
   q = triviaQuestion;
-  form.innerHTML = `<div>
-    <p id="question-container">
-      <span id="question-label">
-      Question:
-      </span>
-      <span id="question">
-        ${q.question}
-      </span>
-    </p>
+  form.innerHTML = `
 
     <fieldset id="fieldset">
-      <legend id="legend">Enter Your Answer</legend>
+      <legend id="legend">Read Question & Submit Answer</legend>
+      <div>
+        <p id="question-container">
+          <span id="question-label"> Question: </span>
+          <span id="question"> ${q.question} </span>
+        </p>
       <div id="radio-container">
       <div>
         <input type="radio" id="option1" value="${q.options[0]}" name="options" />

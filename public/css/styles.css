@@ -62,17 +62,16 @@ body {
   margin: 5px 10px;
 }
 
-.game-info h2 {
+.game-info h3 {
+  background-color: white;
   border: 1px solid #00539cff;
+  border-radius: 3px;
   width: 30%;
   margin: 3px;
+  padding: 2px;
 }
 
-/* .game-info-opponent h2 {
-  width: 100%;
-} */
-
-.time-score-question h2 {
+.time-score-question h3 {
   background-color: white;
   border: 2px solid #eea47fff;
   border-radius: 2px;
@@ -84,7 +83,7 @@ body {
 .report-container {
   margin: 15px auto;
   background-color: white;
-  border: 5px solid #eea47fff;
+  border: 5px solid #00539cff;
   border-radius: 15px;
   width: 90%;
   box-shadow: 0 0 10px 3px #00539cff;
@@ -135,6 +134,23 @@ body {
   margin-bottom: 10px;
 }
 
+.homeButton {
+  font-size: 1em;
+  font-weight: bold;
+  background-color: #00539cff;
+  color: white;
+  padding: 5px;
+  border: 3px solid white;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.homeButton:hover {
+  background-color: #a7beae;
+  color: #00539cff;
+  border-color: #00539cff;
+}
+
 #submit:hover {
   background-color: #a7beae;
   color: #00539cff;
@@ -163,4 +179,14 @@ body {
 }
 
 .report-container {
+  font-size: 1.5em;
+}
+
+.report-container h2 {
+  font-style: italic;
+}
+
+#time-box {
+  background-color: rgba(216, 239, 255, 0.9);
+  border-color: #00539cff;
 }
