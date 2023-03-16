@@ -1,0 +1,192 @@
+body {
+  background-color: #a7beae;
+}
+
+.main {
+  margin: 20px auto;
+  text-align: center;
+  background-color: #e7e8d1;
+  border: 5px solid #00539cff;
+  border-radius: 15px;
+  width: 700px;
+  box-shadow: 0 0 10px 3px #eea47fff;
+}
+
+.main-heading-1 {
+  color: #00539cff;
+  font-size: 4em;
+}
+
+.main-2 .main-heading-1 {
+  margin: 0;
+}
+
+.main-label {
+  font-size: 2em;
+}
+
+.form-section {
+  border: 3px solid #eea47fff;
+  margin: 10px;
+  padding: 5px;
+}
+
+.form-section > div {
+  margin: 10px;
+}
+
+.form-section .input {
+  font-size: 20px;
+  width: 300px;
+}
+
+.submitHomeFormBtn {
+  font-size: 2em;
+  font-weight: bold;
+  background-color: #00539cff;
+  color: white;
+  padding: 5px;
+  border: 3px solid white;
+  border-radius: 5px;
+}
+
+.submitHomeFormBtn:hover {
+  background-color: #a7beae;
+  color: #00539cff;
+  border-color: #00539cff;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 10px;
+}
+
+.game-info h3 {
+  background-color: white;
+  border: 1px solid #00539cff;
+  border-radius: 3px;
+  width: 30%;
+  margin: 3px;
+  padding: 2px;
+}
+
+.time-score-question h3 {
+  background-color: white;
+  border: 2px solid #eea47fff;
+  border-radius: 2px;
+  width: 90%;
+  box-shadow: 0 0 3px 2px #eea47fff;
+}
+
+.form2,
+.report-container {
+  margin: 15px auto;
+  background-color: white;
+  border: 5px solid #00539cff;
+  border-radius: 15px;
+  width: 90%;
+  box-shadow: 0 0 10px 3px #00539cff;
+}
+
+#wait-message {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+#question-container {
+  border: 2px solid #00539cff;
+  box-shadow: 0 0 5px 2px #00539cff;
+  height: 80px;
+}
+
+#question-container,
+#fieldset {
+  text-align: left;
+  font-size: 1em;
+  margin: 15px auto;
+  padding: 10px;
+  border-radius: 15px;
+  width: 90%;
+}
+
+#fieldset {
+  border: 4px solid #00539cff;
+}
+
+#legend {
+  text-align: center;
+}
+
+#question-label,
+#legend {
+  font-weight: bold;
+}
+
+#submit {
+  font-size: 1.5em;
+  font-weight: bold;
+  background-color: rgb(27, 156, 17);
+  color: white;
+  padding: 5px;
+  border: 3px solid white;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.homeButton {
+  font-size: 1em;
+  font-weight: bold;
+  background-color: #00539cff;
+  color: white;
+  padding: 5px;
+  border: 3px solid white;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.homeButton:hover {
+  background-color: #a7beae;
+  color: #00539cff;
+  border-color: #00539cff;
+}
+
+#submit:hover {
+  background-color: #a7beae;
+  color: #00539cff;
+  border-color: #00539cff;
+}
+
+#radio-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 3px;
+  height: 180px;
+}
+
+#radio-container > div {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #00539cff;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+#radio-container label {
+  display: block;
+  width: 100%;
+}
+
+.report-container {
+  font-size: 1.5em;
+}
+
+.report-container h2 {
+  font-style: italic;
+}
+
+#time-box {
+  background-color: rgba(216, 239, 255, 0.9);
+  border-color: #00539cff;
+}

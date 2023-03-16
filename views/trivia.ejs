@@ -10,19 +10,28 @@
     <script defer src="client.js"></script>
   </head>
   <body>
-    <h1>Trivia Game</h1>
-    <h2>Username: <span id="username"><%= locals.name %></span></h2>
-    <h2>Game Room Session: <span id="room"> <%= locals.room %> </span></h2>
-    <h2>Players: <%= locals.competitor %></h2>
-    <ul id="playersInRoomList"></ul>
-    <ul id="players"></ul>
-    <h2 id="timer">Timer</h2>
-    <h2>Score: <span id="score">0</span></h2>
-    <h2>Question: # <span id="question-number">0</span></h2>
-    <div id="message-container">
-      <ol id="message-list"></ol>
-    </div>
-    <p id="wait-message">*Quiz will start once all players have joined.</p>
-    <form id="main-trivia-form-container"></form>
+    <main class="main main-2">
+      <h1 class="main-heading-1">Trivia Game!</h1>
+      <div class="game-info">
+        <h3>Username: <span id="username"><%= locals.name %></span></h3>
+        <h3>
+          Opponent: <%= locals.competitor %>
+          <span id="playersInRoomList"></span> <span id="players">None</span>
+        </h3>
+        <h3>Game: <span id="room"> <%= locals.room %> </span></h3>
+      </div>
+      <div class="game-info time-score-question">
+        <h3>Score:<span id="score"></span></h3>
+        <h3 id="time-box">Timer:<span id="timer"></span></h3>
+        <h3><span id="question-number"></span>of 6 Questions</h3>
+      </div>
+      <div id="message-container">
+        <ol id="message-list"></ol>
+      </div>
+
+      <form id="main-trivia-form-container" class="form2">
+        <p id="wait-message">*Waiting for second player to join.</p>
+      </form>
+    </main>
   </body>
 </html>
