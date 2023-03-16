@@ -4,6 +4,10 @@ let isReady = false;
 
 let gameOver = false;
 
+import homeURLClient from './getHomeURL.js';
+
+let urlHome = homeURLClient.toString().replace('/trivia', '/');
+
 //Get username and room from DOM
 
 let username = document.querySelector('#username').textContent;
@@ -24,11 +28,11 @@ scoreArea.textContent = ` ${score}`;
 questionNumberArea.textContent = `${questionNumber} `;
 countdownClock.textContent = ` 10s`;
 
-nextQ = false;
+let nextQ = false;
 
 let playersList2;
 
-startCount = false;
+let startCount = false;
 
 const getClockFunc = () => {
   if (startCount) {
@@ -52,7 +56,6 @@ socket.on('endOfGame', () => {
 
 socket.on('endReport', ({ opponent, oppScore }) => {
   form.remove();
-  console.log(`${opponent} scored ${score}`);
   let reportContiner = document.createElement('div');
   let currUserReport = document.createElement('div');
   let oppUserReport = document.createElement('div');
@@ -84,7 +87,7 @@ socket.on('endReport', ({ opponent, oppScore }) => {
   reportContiner.classList.add('report-container');
   document.querySelector('.main-2').append(reportContiner);
   homeButton.addEventListener('click', () => {
-    window.location.assign('http://localhost:3000/');
+    window.location.assign(urlHome);
   });
 });
 
@@ -95,7 +98,7 @@ socket.on('userDisconnect', () => {
     oppLeftMessage.innerHTML = `<h1>Your opponent disconnected so you will be routed back to the homepage!</h1>`;
     document.querySelector('.main-2').append(oppLeftMessage);
     setTimeout(() => {
-      window.location.assign('http://localhost:3000/');
+      window.location.assign(urlHome);
     }, 7000);
   }
 });
@@ -162,6 +165,10 @@ const displayPlayers = (roomUsers) => {
     }
   });
 };
+
+let q;
+let selectedAnswer;
+let correctAnswer;
 
 const displayGame = (triviaQuestion) => {
   questionNumber++;
