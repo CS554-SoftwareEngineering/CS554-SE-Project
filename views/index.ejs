@@ -4,26 +4,55 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
     <title>Document</title>
   </head>
   <body>
-    <h1>Trivia Game!</h1>
-    <div>
-      <form id="join-room-form" action="/initialInfo" method="POST">
-        <div>
-          <label for="user-name-input">Please enter your name: </label>
-          <input type="text" name="name" id="user-name-input" required />
-        </div>
-        <div>
-          <label for="join-room-select"
-            >Select a Game Room Session to Join and Play:
-          </label>
-          <select name="room" id="join-room-select" required>
-            <option value="Software Engineering">Software Engineering</option>
-          </select>
-          <input type="submit" value="Join and Play" />
-        </div>
-      </form>
-    </div>
+    <main class="main">
+      <h1 class="main-heading-1">Trivia Game!</h1>
+      <div>
+        <form
+          id="join-room-form"
+          class="form"
+          action="/initialInfo"
+          method="POST"
+        >
+          <div class="form-section">
+            <div>
+              <label class="main-label" for="user-name-input"
+                >Enter Your Username:
+              </label>
+            </div>
+            <div>
+              <input
+                class="input"
+                type="text"
+                name="name"
+                id="user-name-input"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-section">
+            <div>
+              <label class="main-label" for="join-room-select"
+                >Select a Game Room Session:
+              </label>
+            </div>
+
+            <div>
+              <select class="input" name="room" id="join-room-select" required>
+                <option value="Software Engineering">
+                  Software Engineering
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-section">
+            <input class="submitHomeFormBtn" type="submit" value="Join" />
+          </div>
+        </form>
+      </div>
+    </main>
   </body>
 </html>
