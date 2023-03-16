@@ -68,9 +68,7 @@ io.on('connection', (socket) => {
         'triviaQuestion',
         allTriviaQuestions.questions[questionNumber]
       );
-      console.log('Question Number: ' + questionNumber);
     } else {
-      console.log('end of game');
       io.to(room).emit('endOfGame');
     }
   });
