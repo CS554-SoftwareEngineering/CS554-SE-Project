@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: #a7beae;
 }
@@ -97,15 +103,15 @@ body {
 #question-container {
   border: 2px solid #00539cff;
   box-shadow: 0 0 5px 2px #00539cff;
-  height: 80px;
+  height: 60px;
 }
 
 #question-container,
 #fieldset {
   text-align: left;
   font-size: 1em;
-  margin: 15px auto;
-  padding: 10px;
+  margin: 5px auto;
+  padding: 5px;
   border-radius: 15px;
   width: 90%;
 }
@@ -158,14 +164,15 @@ body {
 }
 
 #radio-container {
+  margin: 10px;
   display: flex;
+  gap: 2px;
   flex-direction: column;
-  justify-content: space-evenly;
-  gap: 3px;
-  height: 180px;
+  justify-content: space-between;
 }
 
 #radio-container > div {
+  margin: 0;
   display: flex;
   flex-direction: row;
   border: 1px solid #00539cff;

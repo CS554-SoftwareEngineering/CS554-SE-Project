@@ -4,6 +4,16 @@ let isReady = false;
 
 let gameOver = false;
 
+import confetti from 'https://cdn.skypack.dev/canvas-confetti';
+
+let winnerCelebration = false;
+let confettiCelebration = false;
+let loser = false;
+
+import homeURLClient from './getHomeURL.js';
+
+let urlHome = homeURLClient.toString().replace('/trivia', '/');
+
 //Get username and room from DOM
 
 let username = document.querySelector('#username').textContent;
@@ -24,11 +34,11 @@ scoreArea.textContent = ` ${score}`;
 questionNumberArea.textContent = `${questionNumber} `;
 countdownClock.textContent = ` 10s`;
 
-nextQ = false;
+let nextQ = false;
 
 let playersList2;
 
-startCount = false;
+let startCount = false;
 
 const getClockFunc = () => {
   if (startCount) {
@@ -37,12 +47,14 @@ const getClockFunc = () => {
     scoreArea.textContent = ` ${score}`;
     questionNumberArea.textContent = `${questionNumber} `;
   }
+  if (confettiCelebration) {
+    confetti();
+  }
 };
 
 setInterval(getClockFunc, 1000);
 
 socket.on('endOfGame', () => {
-  console.log('The game has ended!');
   countdownClock.textContent = ` Game Over!`;
   startCount = false;
   nextQ = false;
@@ -52,7 +64,6 @@ socket.on('endOfGame', () => {
 
 socket.on('endReport', ({ opponent, oppScore }) => {
   form.remove();
-  console.log(`${opponent} scored ${score}`);
   let reportContiner = document.createElement('div');
   let currUserReport = document.createElement('div');
   let oppUserReport = document.createElement('div');
@@ -63,17 +74,19 @@ socket.on('endReport', ({ opponent, oppScore }) => {
   homeButton.classList.add('homeButton');
   reportContinerTitle.textContent = 'Score Report';
   if (score > oppScore) {
-    comparisonMsg.textContent = `You Won, Congrats!`;
+    winnerCelebration = true;
+    comparisonMsg.textContent = `Congrats, You Won!`;
     comparisonMsg.style.color = 'rgb(27, 156, 17)';
   } else if (oppScore > score) {
-    comparisonMsg.textContent = `You Lost, Sorry!`;
+    comparisonMsg.textContent = `Sorry, You Lost!`;
     comparisonMsg.style.color = 'red';
+    loser = true;
   } else if (score === oppScore) {
     comparisonMsg.textContent = `It was a TIE!`;
     comparisonMsg.style.color = 'rgb(27, 156, 17)';
   }
-  currUserReport.textContent = `${username} scored: ${score} points`;
-  oppUserReport.textContent = `${opponent} scored: ${oppScore} points`;
+  currUserReport.textContent = `${username} score: ${score}`;
+  oppUserReport.textContent = `${opponent} score: ${oppScore}`;
   reportContiner.append(
     reportContinerTitle,
     comparisonMsg,
@@ -84,20 +97,27 @@ socket.on('endReport', ({ opponent, oppScore }) => {
   reportContiner.classList.add('report-container');
   document.querySelector('.main-2').append(reportContiner);
   homeButton.addEventListener('click', () => {
-    window.location.assign('http://localhost:3000/');
+    window.location.assign(urlHome);
   });
+  if (winnerCelebration === true) {
+    confettiCelebration = true;
+    document.querySelector('.body').style.backgroundColor = 'green';
+  }
+  if (loser === true) {
+    document.querySelector('.body').style.backgroundColor = 'red';
+  }
 });
 
 socket.on('userDisconnect', () => {
-  if (gameOver === false) {
-    form.remove();
-    let oppLeftMessage = document.createElement('div');
-    oppLeftMessage.innerHTML = `<h1>Your opponent disconnected so you will be routed back to the homepage!</h1>`;
-    document.querySelector('.main-2').append(oppLeftMessage);
-    setTimeout(() => {
-      window.location.assign('http://localhost:3000/');
-    }, 7000);
-  }
+  // if (gameOver === false) {
+  form.remove();
+  let oppLeftMessage = document.createElement('div');
+  oppLeftMessage.innerHTML = `<h1>Your opponent disconnected so you will be routed back to the homepage!</h1>`;
+  document.querySelector('.main-2').append(oppLeftMessage);
+  setTimeout(() => {
+    window.location.assign(urlHome);
+  }, 5000);
+  // }
 });
 
 socket.on('time', (timer) => {
@@ -111,8 +131,6 @@ socket.on('time', (timer) => {
   }
 });
 
-console.log(username, room);
-
 socket.emit('joinGame', { username, room });
 
 socket.on('usersInRoom', ({ room, roomUsers }) => {
@@ -125,7 +143,6 @@ socket.on('usersInRoom', ({ room, roomUsers }) => {
     document.getElementById('wait-message').remove();
     if (roomUsers[0].username === username) {
       socket.emit('readyForTrivia', { room, roomUsers });
-      console.log('The name: ' + roomUsers[0].username);
     }
     startCount = true;
   } else if (roomUsers.length < 2) {
@@ -138,7 +155,6 @@ socket.on('triviaQuestion', (triviaQuestion) => {
 });
 
 socket.on('message', (message) => {
-  console.log(message);
   outputMessage(message);
 });
 
@@ -163,10 +179,12 @@ const displayPlayers = (roomUsers) => {
   });
 };
 
+let q;
+let selectedAnswer;
+let correctAnswer;
+
 const displayGame = (triviaQuestion) => {
   questionNumber++;
-  console.log('Here is the question: ');
-  console.log(triviaQuestion);
   q = triviaQuestion;
   form.innerHTML = `
 
@@ -205,13 +223,12 @@ const displayGame = (triviaQuestion) => {
   document.getElementById('option3').disabled = false;
   document.getElementById('option4').disabled = false;
   document.getElementById('submit').disabled = false;
+  document.getElementById('radio-container').style.backgroundColor = 'white';
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     selectedAnswer = form.elements.options.value;
     correctAnswer = q.answer;
-    console.log(username + ' has answered: ' + selectedAnswer);
-    console.log('The correct answer is: ' + correctAnswer);
 
     if (selectedAnswer === correctAnswer) {
       score++;
@@ -222,6 +239,8 @@ const displayGame = (triviaQuestion) => {
     document.getElementById('option3').disabled = true;
     document.getElementById('option4').disabled = true;
     document.getElementById('submit').disabled = true;
+    document.getElementById('radio-container').style.backgroundColor =
+      '#D0D0D0';
     form.reset();
   });
 };

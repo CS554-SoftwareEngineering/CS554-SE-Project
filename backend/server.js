@@ -45,10 +45,6 @@ io.on('connection', (socket) => {
   socket.on('joinGame', ({ username, room }) => {
     const user = joinUser(socket.id, username, room);
     socket.join(user.room);
-    // socket.emit('message', 'Welcome to Trivia App!');
-    // socket.broadcast
-    //   .to(user.room)
-    //   .emit('message', `${user.username} has joined the game!`);
 
     io.to(user.room).emit('usersInRoom', {
       room: user.room,
@@ -72,9 +68,7 @@ io.on('connection', (socket) => {
         'triviaQuestion',
         allTriviaQuestions.questions[questionNumber]
       );
-      console.log('Question Number: ' + questionNumber);
     } else {
-      console.log('end of game');
       io.to(room).emit('endOfGame');
     }
   });
@@ -96,8 +90,6 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     const user = leaveUser(socket.id);
     if (user) {
-      // io.to(user.room).emit('message', `${user.username} has left the game!`);
-
       io.to(user.room).emit('usersInRoom', {
         room: user.room,
         roomUsers: getUsersInRoom(user.room),
