@@ -1,0 +1,31 @@
+const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+
+const mongoServer = new MongoMemoryServer();
+
+module.exports.dbConnect = async () => {
+  const uri = await mongoServer.getUri();
+
+  const mongooseOpts = {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  };
+
+  await mongoose.connect(uri, mongooseOpts);
+};
+
+module.exports.dbDisconnect = async () => {
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+  await mongoServer.stop();
+};
+
+module.exports.clearDatabase = async () => {
+    const collections = mongoose.connection.collections;
+    for (const key in collections) {
+        const collection = collections[key];
+        await collection.deleteMany();
+    }
+}

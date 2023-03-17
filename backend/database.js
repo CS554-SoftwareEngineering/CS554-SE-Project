@@ -3,10 +3,13 @@ const leaderboards = require("./leaderboard");
 mongoose.set('strictQuery', true);
 
 // Connection to Heroku
-const uri = process.env.MONGODB_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+// const uri = process.env.MONGODB_URI;
+// mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('MongoDB connected'))
+//   .catch(err => console.log(err));
+
+// Connection to localhost for testing
+mongoose.connect("mongodb://localhost/rankings")
 
 async function insertIntoLeaderboards(playerName, playerScore) {
     try {
@@ -58,7 +61,7 @@ async function retrieveLeaderboardRecords(numRecordsToRetrieve) {
 // CRUD operations for leaderboard rankings database
 module.exports = db_interface = {
     insert: (playerName, playerScore) => {
-        insertIntoDatabase(playerName, playerScore)
+        insertIntoLeaderboards(playerName, playerScore)
     },
     display: (numToDisplay) => {
         displayLeaderboards(numToDisplay);

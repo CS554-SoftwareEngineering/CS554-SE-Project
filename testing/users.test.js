@@ -1,8 +1,5 @@
 const {
     joinUser,
-    getCurrentUser,
-    leaveUser,
-    getUsersInRoom,
 } = require('../backend/users');
 
 test("User object with correct values", () => {
