@@ -1,0 +1,40 @@
+.game-bg{
+    color: #EDEEEE;
+    padding: 20px;
+    height: fit-content;
+    width: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+}
+.text{
+    font-weight: 400 !important;
+}
+.game-heading {
+    font-weight: 700;
+}
+.game-details-container{
+    display: grid;
+    grid-template-columns: 70% 30%;
+
+}
+.game-card{
+    background-color: #1a202c !important;
+    border: 2px solid #1a202c;
+    
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.card-body{
+    padding: 0;
+}
+.spinner-container{
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+}
+
+
