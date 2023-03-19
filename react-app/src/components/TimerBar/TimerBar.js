@@ -18,7 +18,6 @@ const RenderTime = ({ remainingTime }) => {
     isNewTimeFirstTick.current = false;
   }
 
-  // force one last re-render when the time is over to tirgger the last animation
   if (remainingTime === 0) {
     setTimeout(() => {
       setOneLastRerender((val) => val + 1);
@@ -71,8 +70,7 @@ const TimerBar = forwardRef((props, ref) => {
               strokeWidth={5}
               trailStrokeWidth={5}
               onComplete={() => {
-                // do your stuff here
-                return { shouldRepeat: repeatState } // repeat animation in 1.5 seconds
+                return { shouldRepeat: repeatState }
               }}
             >
               {RenderTime}

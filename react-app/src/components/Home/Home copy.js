@@ -75,43 +75,6 @@ function Home() {
           </div>        
         </div>
       </div>
-      
-    {/* <p>This is the homepage.</p> */}
-    {/* <p>
-      Data passed from backend: <%= locals.exampleText || "Default data passed"
-      %>
-    </p> */}
-      {/* <div>
-        <form id="create-room-form" action="">
-          <div>
-            <Typography variant="h6" >Create a Game Room Session: </Typography>
-            <TextField id="outlined-basic" label="Session" variant="standard" />
-            <Button variant="contained">Create</Button>
-          </div>
-          <div>
-            <TextField id="outlined-basic" label="Name" variant="standard" />
-          </div>
-          <div>
-            <Typography variant="h6" >Select a Game Room Session to Join and Play: </Typography>        <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={room}
-              onChange={handleSelectRoom}
-              label="Room"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={'room 1'}>room 1</MenuItem>
-              <MenuItem value={'room 2'}>room 2</MenuItem>
-              <MenuItem value={'room 3'}>room 3</MenuItem>
-            </Select>
-            <Button variant="contained">Join and Play</Button>
-          </div>
-        </form>
-        
-      </div> */}
     </div>
   );
 }

@@ -1,17 +1,12 @@
 body {
   margin: 0;
-  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   font-family: 'Montserrat', sans-serif !important;
 }
 
-/* common code */
 .bg{
-  /* background-color: #1a202c; */
   background-color: #0f141d;
   height: 100%;
   width: 100%;
@@ -31,7 +26,6 @@ body {
   color: #1a202c !important;
  }
  .form-control, .form-select, #dropdown-basic{
-     /* background-color: red !important; */
      border-radius: 2px !important;
      padding: 10px 20px !important;
      color: #808080 !important;
@@ -45,15 +39,10 @@ body {
  
  .form-control:focus {
      color: white !important;
-     /* background-color: transparent !important; */
-     /* border-color: #65D1EF !important; */
      box-shadow: none !important;
  }
  
  .form-select:focus {
-     /* color: grey !important;
-     background-color: transparent !important; */
-     /* border-color: #65D1EF !important; */
      box-shadow: none !important;
  }
  .form-check-input:focus {

@@ -6,7 +6,7 @@ A real-time multi-player educational trivia game application where users can tes
 
 ## Deployment / How to Run
 
-TBA...
+[Link to Deployed Site: https://clash-of-software-engineers.herokuapp.com/](https://clash-of-software-engineers.herokuapp.com/)
 
 ### Team Members
 
@@ -14,8 +14,6 @@ Joshua Wachana, Nachiket More, Hali Tran and Leo Lu
 
 ### Languages and Tools Used
 
-HTML, CSS, JavaScript, React, and more TBA .....
+HTML, CSS, JavaScript, NodeJs, SocketIO and React
 
-### Resources used / Citations
-
-TBA ... 
+ 

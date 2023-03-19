@@ -4,7 +4,7 @@ import { Button, Form, Container, Row, Col, Dropdown } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
 
-// import FadeIn from 'react-fade-in';
+import FadeIn from 'react-fade-in';
 
 
 
@@ -29,8 +29,6 @@ function Home() {
   const enterGameRoom = (event) => {
     event.preventDefault();
 
-    // console.log("submitted value : ", [name, room]);
-    // window.location.replace("/game");
     navigate('/game',{state:{
       name:{nameValue},
       room:{roomValue} 
@@ -41,30 +39,25 @@ function Home() {
   return (
     <div className="bg">
       <div className="form-bg">
-        {/* <FadeIn> */}
+        <FadeIn>
          <h2 className="form-heading mb-4 mt-4">CLASH OF SOFTWARE ENGINEERS</h2>
-        {/* </FadeIn> */}
-      {/* <FadeIn delay={1000}>   */}
+        </FadeIn>
+      <FadeIn delay={1000}>  
         <Form onSubmit={enterGameRoom}>
           <Container>
             <Row>
               <Col sm={6}>
                 <Form.Group className="mb-4 mt-4" controlId="formBasicName">
-                  {/* <Form.Label>Name</Form.Label> */}
                   <Form.Control
                     type="text"
                     placeholder="Player Name"
                     value={nameValue}
                     onChange={handleName}
                   />
-                  {/* <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                  </Form.Text> */}
                 </Form.Group>
               </Col>
               <Col sm={6}>
                 <Form.Group className="mb-4 mt-4" controlId="formBasicSession">
-                  {/* <Form.Label>Select a Game Room Session to Join and Play:</Form.Label> */}
                   <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                       {roomValue}
@@ -76,15 +69,6 @@ function Home() {
                       <Dropdown.Item href="" value="Room 1" onClick={handleSelectRoom}>Room 3</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
-                  {/* <Form.Select
-                    aria-label="Default select example"
-                    value={roomValue}
-                    onChange={handleSelectRoom}
-                  >
-                    <option value="Room 1">Room 1</option>
-                    <option value="Room 2">Room 2</option>
-                    <option value="Room 3">Room 3</option>
-                  </Form.Select> */}
                 </Form.Group>
               </Col>
             </Row>
@@ -95,7 +79,7 @@ function Home() {
             </Button>
           </Form.Group>
         </Form>
-      {/* </FadeIn> */}
+      </FadeIn>
       </div>
     </div>
   );
