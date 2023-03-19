@@ -1,0 +1,14 @@
+# List of potential features
+- Basic visual user interface for the application
+- Animation countdown timer to answer questions
+- Visual cue when questions is answered
+- Two player mode (server connectivity)
+- Customizable game settings (difficulty, time, skip option, number of -questions)
+- Track speed (time) in which questions are answered.
+- Track score/performance of users
+- Background music as players are competing
+- Display score/performance of users
+- Algorithm to randomized questions asked
+- Ability to choose question category in SDE
+- Leaderboard tracking result of all games played
+- Question creation and access for players

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trivia</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script defer src="client.js"></script>
+  </head>
+  <body>
+    <h1>Trivia Game</h1>
+    <h2>Username: <span id="username"><%= locals.name %></span></h2>
+    <h2>Game Room Session: <span id="room"> <%= locals.room %> </span></h2>
+    <h2>Players: <%= locals.competitor %></h2>
+    <ul id="playersInRoomList"></ul>
+    <ul id="players"></ul>
+    <h2 id="timer">Timer</h2>
+    <h2>Score: <span id="score">0</span></h2>
+    <h2>Question: # <span id="question-number">0</span></h2>
+    <div id="message-container">
+      <ol id="message-list"></ol>
+    </div>
+    <p id="wait-message">*Quiz will start once all players have joined.</p>
+    <form id="main-trivia-form-container"></form>
+  </body>
+</html>
