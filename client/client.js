@@ -10,9 +10,12 @@ let winnerCelebration = false;
 let confettiCelebration = false;
 let loser = false;
 
-import homeURLClient from './getHomeURL.js';
+import currentURL from './URL.js';
 
-let urlHome = homeURLClient.toString().replace('/trivia', '/');
+function formatURLToBeHomepage(currURL) {
+  let urlHome = currURL.toString().replace('/trivia', '/');
+  return urlHome;
+}
 
 //Get username and room from DOM
 
@@ -97,7 +100,7 @@ socket.on('endReport', ({ opponent, oppScore }) => {
   reportContiner.classList.add('report-container');
   document.querySelector('.main-2').append(reportContiner);
   homeButton.addEventListener('click', () => {
-    window.location.assign(urlHome);
+    window.location.assign(formatURLToBeHomepage(currentURL));
   });
   if (winnerCelebration === true) {
     confettiCelebration = true;
@@ -115,7 +118,7 @@ socket.on('userDisconnect', () => {
   oppLeftMessage.innerHTML = `<h1>Your opponent disconnected so you will be routed back to the homepage!</h1>`;
   document.querySelector('.main-2').append(oppLeftMessage);
   setTimeout(() => {
-    window.location.assign(urlHome);
+    window.location.assign(formatURLToBeHomepage(currentURL));
   }, 5000);
   // }
 });
